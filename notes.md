@@ -24,7 +24,11 @@
   - hooks are react specific, newer
   - classes are ubiquitious, older
 
-  ## Array Methods
+## SPA
+  - pre 2010, needed to communicate with server for every page switch
+  - with react, all of the pages are in the code, no need to go to the server for every page change
+
+## Array Methods
   - .map is more efficient than a for loop, and gives you a new array back
 
   ```
@@ -32,3 +36,21 @@
   myArray.map(element => element + 1)
   ```
   returns [2, 3, 4, 5]
+
+  - .filter
+    - returns new array
+    - returns true/false
+
+  ```
+  const myArray = [1, 3, 5, 7, 9]
+  myArray.filter(el => el > 4)
+  ```
+
+  - .includes
+    - takes single argument
+    - checks inside array to see if argument exists
+  ```
+  const myArray = [1, 2, 3, 4, ]
+  myArray.includes(3)
+  myArray.includes
+  ```

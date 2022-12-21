@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import './App.css';
+import CardList from './components/card-list/card-list.component';
 
 // using class component instead of functional
 class App extends Component {
@@ -25,10 +26,21 @@ class App extends Component {
       ))
   }
 
-  render() {
+  onSearchChange = (event) => {
+    //if you have many onchange/async functions it will impact preformance because they are unnecessarily rendered. so it should be in the component, not the render which is a larger scope
+  const searchField = event.target.value.toLocaleLowerCase();
+  this.setState(() => {
+    return {searchField}
+  })
+}
 
-    const filteredMonsters = this.state.monsters.filter((monster) => {
-      return monster.name.toLocaleLowerCase().includes(this.state.searchField);
+  render() {
+    //destructuring, need .this because class/ something outside render is being referenced
+    const { monsters, searchField } = this.state
+    const { onSearchChange } = this;
+
+    const filteredMonsters = monsters.filter((monster) => {
+      return monster.name.toLocaleLowerCase().includes(searchField);
     });
 
   return (
@@ -37,20 +49,11 @@ class App extends Component {
         className='search-box'
         type='search'
         placeholder='search monsters'
-        onChange={(event) => {
-        const searchField = event.target.value.toLocaleLowerCase();
-        this.setState(() => {
-          return {searchField}
-        })
-      }}/>
-      {
-        filteredMonsters.map((monster) => {
-          return <h1 key={monster.id}>{monster.name}</h1>
-          // key property stops error, usually id value as it will be completely unique. monster.name could be duplicated, and react would rerender both
-          // add key to highest level (ie, if this h1 was inside of a div)
-        })
-      }
+        onChange={onSearchChange}/>
+
+      <CardList monsters={filteredMonsters} />
     </div>
+    
   );
 }
 }
