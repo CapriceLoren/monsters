@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import './App.css';
 import CardList from './components/card-list/card-list.component';
+import SearchBox from './components/search-box/search-box.component';
 
 // using class component instead of functional
 class App extends Component {
@@ -45,12 +46,12 @@ class App extends Component {
 
   return (
     <div className="App">
-      <input
-        className='search-box'
-        type='search'
-        placeholder='search monsters'
-        onChange={onSearchChange}/>
+      <h1 className='app-title'>Monsters Rolodex</h1>
 
+      <SearchBox
+        onChangeHandler={onSearchChange}
+        placeholder='search monsters'
+        className="monsters-search-box" />
       <CardList monsters={filteredMonsters} />
     </div>
     

@@ -1,4 +1,6 @@
-import { Component } from 'react';
+import { Component } from "react";
+import './card-list.styles.css';
+import Card from '../card/card.component'
 
 class CardList extends Component {
   render() {
@@ -6,14 +8,16 @@ class CardList extends Component {
     //react renders on mount, rerenders when props or state change [ie: start as an empty array, get populated by API call]
 
     return (
-      <div>
-        {monsters.map((monster) => (
-          <h1 key={monster.id}>{monster.name}</h1>
-          // key property stops error, usually id value as it will be completely unique. monster.name could be duplicated, and react would rerender both
-          // add key to highest level (ie, if this h1 was inside of a div)
-        ))}
+      <div className="card-list">
+
+        {monsters.map((monster) => {
+
+          return (
+            <Card monster={ monster } />
+          );
+        })}
       </div>
-    )
+    );
   }
 }
 
