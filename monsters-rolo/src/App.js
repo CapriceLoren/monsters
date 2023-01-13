@@ -1,61 +1,48 @@
-import { Component } from 'react';
-import './App.css';
+import { useState, useEffect } from 'react';
+
 import CardList from './components/card-list/card-list.component';
 import SearchBox from './components/search-box/search-box.component';
+import './App.css';
 
-// using class component instead of functional
-class App extends Component {
-  constructor() {
-    //need super if you're calling constructor
-    super();
+const App = () => {
+    // takes props, returns jsx
+  const [searchField, setSearchField] = useState('');
+  const [monsters, setMonsters] = useState([]);
+  const [filteredMonsters, setFilterMonsters] = useState(monsters);
 
-    this.state = {
-      //always json object
-      monsters: [],
-      searchField: ''
-    };
-  }
-
-  componentDidMount() {
-    //first time component gets placed onto DOM, only happens once unless it has been unmounted
-    //this is when you want to make an API request
+  useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
       .then((response) => response.json())
-      .then((users) => this.setState(() => {
-        return {monsters: users}
-      }
-      ))
-  }
+      .then((users) => setMonsters(users));
+  }, []
+    // contains dependencies, ie state or prop values. will only rerender if values inside array change. if using useState, react thinks array changes every time because the pointer/place in memory does)
+  );
 
-  onSearchChange = (event) => {
-    //if you have many onchange/async functions it will impact preformance because they are unnecessarily rendered. so it should be in the component, not the render which is a larger scope
-  const searchField = event.target.value.toLocaleLowerCase();
-  this.setState(() => {
-    return {searchField}
-  })
-}
-
-  render() {
-    //destructuring, need .this because class/ something outside render is being referenced
-    const { monsters, searchField } = this.state
-    const { onSearchChange } = this;
-
-    const filteredMonsters = monsters.filter((monster) => {
+  useEffect(() => {
+    const newFilteredMonsters = monsters.filter((monster) => {
       return monster.name.toLocaleLowerCase().includes(searchField);
     });
 
+    setFilterMonsters(newFilteredMonsters);
+  }, [monsters, searchField]);
+
+  const onSearchChange = (event) => {
+    const searchFieldString = event.target.value.toLocaleLowerCase();
+    setSearchField(searchFieldString);
+  };
+
   return (
-    <div className="App">
+    <div className='App'>
       <h1 className='app-title'>Monsters Rolodex</h1>
 
       <SearchBox
+        className='monsters-search-box'
         onChangeHandler={onSearchChange}
         placeholder='search monsters'
-        className="monsters-search-box" />
+      />
       <CardList monsters={filteredMonsters} />
     </div>
-    
   );
-}
-}
+};
+
 export default App;
