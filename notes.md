@@ -30,6 +30,10 @@
   - batches set state if they are slow/fast enough to do them all at once
   - real dom goes through reflow, updates only what has changed
 
+- react is engine, react dom is used to manipulate dom
+- painting shows what rerenders
+ - dev tools -> more tools -> rendering -> enable paint flashing
+
 ## SPA
   - pre 2010, needed to communicate with server for every page switch
   - with react, all of the pages are in the code, no need to go to the server for every page change
